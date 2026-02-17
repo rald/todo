@@ -1,8 +1,7 @@
 #include "controller.h"
 #include "view.h"
-
-#include <stdlib.h>
 #include <string.h>
+#include <stdlib.h>
 
 void handle_request(sqlite3 *db) {
     char action[32] = {0};
@@ -19,20 +18,25 @@ void handle_request(sqlite3 *db) {
     Todo todos[100];
     int count = 0;
     
+    // Process actions with prepared statements
     if (strcmp(action, "add") == 0 && title[0]) {
         create_todo(db, title);
-    } else if (strcmp(action, "toggle") == 0 && id > 0) {
+    } 
+    else if (strcmp(action, "toggle") == 0 && id > 0) {
         int completed = 0;
+        // Get current status with prepared statement
         sqlite3_stmt *stmt;
-        char sql[] = "SELECT completed FROM todos WHERE id=?";
-        sqlite3_prepare_v2(db, sql, -1, &stmt, 0);
-        sqlite3_bind_int(stmt, 1, id);
-        if (sqlite3_step(stmt) == SQLITE_ROW) {
-            completed = !sqlite3_column_int(stmt, 0);
+        const char *sql = "SELECT completed FROM todos WHERE id = ?;";
+        if (sqlite3_prepare_v2(db, sql, -1, &stmt, NULL) == SQLITE_OK) {
+            sqlite3_bind_int(stmt, 1, id);
+            if (sqlite3_step(stmt) == SQLITE_ROW) {
+                completed = !sqlite3_column_int(stmt, 0);
+            }
+            sqlite3_finalize(stmt);
         }
-        sqlite3_finalize(stmt);
         update_todo(db, id, completed);
-    } else if (strcmp(action, "delete") == 0 && id > 0) {
+    } 
+    else if (strcmp(action, "delete") == 0 && id > 0) {
         delete_todo(db, id);
     }
     

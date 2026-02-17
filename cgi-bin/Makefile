@@ -1,6 +1,6 @@
 CC=gcc
 CFLAGS=-Wall -Wextra -std=c99 -I. -I cgic -I sqlite3
-LIBS=-L cgic -lcgic -L sqlite3 -lsqlite3 -lm
+LIBS=-L cgic -lcgic -L sqlite3 -lsqlite3 -lm -pthread
 
 SRC=model.c view.c controller.c todo.c
 OBJ=$(SRC:.c=.o)
@@ -25,3 +25,5 @@ clean:
 	rm cgic/*.o cgic/libcgic.a
 	rm sqlite3/*.o sqlite3/libsqlite3.a
 	rm -f *.o todo.cgi
+	rm todo.db
+

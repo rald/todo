@@ -1,0 +1,3 @@
+#!/bin/sh
+busybox httpd -f -p 127.0.0.1:14344 -h .
+

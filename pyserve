@@ -1,0 +1,4 @@
+#!/bin/sh
+python3.11 -m http.server --cgi -b 185.125.171.77 -d . 14345
+
+

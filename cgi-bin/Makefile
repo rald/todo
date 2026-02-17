@@ -24,6 +24,5 @@ todo.cgi: $(OBJ)
 clean:
 	rm cgic/*.o cgic/libcgic.a
 	rm sqlite3/*.o sqlite3/libsqlite3.a
-	rm -f *.o todo.cgi
-	rm todo.db
+	rm -f *.o todo.cgi todo.db
 
